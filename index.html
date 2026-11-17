@@ -1,29 +1,69 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trésorerie — Union des étudiants comoriens à Qassim</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="preconnect" href="https://uecuq-db-default-rtdb.europe-west1.firebasedatabase.app">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<meta name="theme-color" content="#0f172a">
-<style>[x-cloak]{display:none!important}.splash{position:fixed;inset:0;display:grid;place-content:center;justify-items:center;gap:14px;background:#f8fafc;color:#475569;font:500 14px Inter,system-ui,sans-serif;z-index:99}.spin{width:36px;height:36px;border:3px solid #cbd5e1;border-top-color:#b45309;border-radius:50%;animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}</style>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','system-ui','sans-serif'],ar:['Cairo','sans-serif']}}}}</script>
-<style type="text/tailwindcss">
-.card{@apply bg-white rounded-2xl shadow-sm ring-1 ring-slate-200/70}
-.inp{@apply w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-base outline-none placeholder:text-slate-500 sm:text-sm focus:border-amber-400 focus:ring-2 focus:ring-amber-200}
-.btn{@apply inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700 transition}
-.btn2{@apply rounded-lg px-2.5 py-1 text-xs font-semibold bg-amber-100 text-amber-800 hover:bg-amber-200 transition}
-.btn3{@apply rounded-lg px-2.5 py-1 text-xs font-semibold text-rose-700 hover:bg-rose-50 transition}
-.tbl th{@apply px-3 py-3 sm:px-4 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600 bg-slate-50}
-.tbl td{@apply px-3 py-3 sm:px-4 text-sm border-t border-slate-100 whitespace-nowrap}
-</style>
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <title>Trésorerie — Union des étudiants comoriens à Qassim</title>
+
+  <!-- Connexions anticipées vers les services externes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://uecuq-db-default-rtdb.europe-west1.firebasedatabase.app">
+
+  <!-- Icônes et polices -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@500;600&display=swap" rel="stylesheet">
+
+  <!-- Styles nécessaires avant que Tailwind soit chargé : écran de chargement et éléments x-cloak -->
+  <style>
+    [x-cloak] { display: none !important; }
+    .splash {
+      position: fixed; inset: 0; z-index: 99;
+      display: grid; place-content: center; justify-items: center; gap: 14px;
+      background: #f8fafc; color: #475569;
+      font: 500 14px Inter, system-ui, sans-serif;
+    }
+    .spin {
+      width: 36px; height: 36px;
+      border: 3px solid #cbd5e1; border-top-color: #b45309; border-radius: 50%;
+      animation: turn .8s linear infinite;
+    }
+    @keyframes turn { to { transform: rotate(360deg); } }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>tailwind.config = {theme: {extend: {fontFamily: {sans: ['Inter', 'system-ui', 'sans-serif'], ar: ['Cairo', 'sans-serif']}}}}</script>
+
+  <!-- Composants réutilisables de l'interface -->
+  <style type="text/tailwindcss">
+    /* Cartes, champs de saisie et libellés */
+    .card  { @apply bg-white rounded-2xl shadow-sm ring-1 ring-slate-200/70 }
+    .inp   { @apply w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-base outline-none placeholder:text-slate-500 sm:text-sm focus:border-amber-400 focus:ring-2 focus:ring-amber-200 }
+    .lbl   { @apply text-xs font-semibold text-slate-600 }
+
+    /* Boutons : aucun contour, ni bordure ni anneau de focus */
+    .btn        { @apply inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 focus:outline-none }
+    .btn-danger { @apply inline-flex items-center justify-center gap-1.5 rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700 focus:outline-none }
+    .btn-cancel { @apply rounded-xl px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 focus:outline-none }
+    .btn-soft   { @apply rounded-lg bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800 transition hover:bg-amber-200 focus:outline-none }
+    .btn-muted  { @apply rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700 transition hover:bg-slate-200 focus:outline-none }
+    .btn-trash  { @apply rounded-lg px-2.5 py-1 text-xs font-semibold text-rose-700 transition hover:bg-rose-50 focus:outline-none }
+
+    /* Cartes de chiffres, pastilles de statut, ligne « aucun enregistrement » */
+    .stat-label { @apply text-xs text-slate-500 }
+    .stat-value { @apply text-xl font-bold }
+    .pill       { @apply rounded-full px-2.5 py-1 text-xs font-semibold }
+    .empty      { @apply py-8 text-center text-slate-500 }
+
+    /* Tableaux */
+    .tbl th { @apply px-3 py-3 sm:px-4 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600 bg-slate-50 }
+    .tbl td { @apply px-3 py-3 sm:px-4 text-sm border-t border-slate-100 whitespace-nowrap }
+  </style>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 </head>
+
 <body class="bg-slate-50 font-sans text-slate-800 antialiased" x-data="app()">
 
 <!-- Chargement -->
@@ -31,22 +71,28 @@
 
 <!-- Connexion -->
 <div x-show="ready&&!user" x-cloak class="grid min-h-screen place-items-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-4">
-  <form @submit.prevent="login()" class="w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl">
+  <form @submit.prevent="login()" novalidate class="w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl">
     <div class="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-amber-300 to-amber-500 font-ar text-3xl font-bold text-slate-900">U</div>
     <h1 class="mt-5 text-center text-lg font-bold leading-snug">Union des étudiants comoriens<br>à l'Université de Qassim</h1>
     <p dir="rtl" class="mt-1 text-center font-ar text-sm text-amber-700">اتحاد طلبة القمريين في جامعة القصيم</p>
     <p class="mt-5 text-center text-xs text-slate-500">Accès réservé au bureau</p>
+
     <div class="mt-5 space-y-3">
-      <input class="inp" type="email" autocomplete="username" placeholder="Adresse e-mail" x-model="email" required>
-      <input class="inp" type="password" autocomplete="current-password" placeholder="Mot de passe" x-model="pass" required>
-      <p x-show="err" x-text="err" class="text-sm text-rose-700"></p>
-      <button class="btn w-full justify-center py-3 disabled:opacity-70" :disabled="busy"><i x-show="busy" class="fa-solid fa-circle-notch fa-spin"></i><span x-text="busy?'Connexion…':'Se connecter'"></span></button>
+      <input class="inp" type="email" autocomplete="username" placeholder="Adresse e-mail" x-model="email">
+      <input class="inp" type="password" autocomplete="current-password" placeholder="Mot de passe" x-model="password">
+      <p x-show="error" x-text="error" class="text-sm text-rose-700"></p>
+      <button class="btn w-full py-3 disabled:opacity-70" :disabled="busy">
+        <i x-show="busy" class="fa-solid fa-circle-notch fa-spin"></i>
+        <span x-text="busy?'Connexion…':'Se connecter'"></span>
+      </button>
     </div>
   </form>
 </div>
 
 <!-- Application -->
 <div x-show="user" x-cloak class="md:flex">
+
+  <!-- Menu latéral (ordinateur) -->
   <aside class="flex flex-col bg-slate-900 text-slate-200 md:sticky md:top-0 md:h-screen md:w-72">
     <div class="flex items-center gap-3 p-5">
       <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-amber-300 to-amber-500 font-ar text-xl font-bold text-slate-900">U</div>
@@ -56,119 +102,169 @@
         <div dir="rtl" class="mt-0.5 font-ar text-[11px] text-amber-300">اتحاد طلبة القمريين في جامعة القصيم</div>
       </div>
     </div>
+
     <nav class="hidden gap-1 px-3 pb-3 md:flex md:flex-col">
-      <template x-for="t in tabs" :key="t[0]">
-        <button @click="tab=t[0]" :class="tab==t[0]?'bg-white/10 text-white':'hover:bg-white/5'" class="flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-medium transition">
-          <i :class="'fa-solid '+t[1]" class="w-5 text-center"></i><span x-text="t[2]"></span>
+      <template x-for="t in tabs" :key="t.id">
+        <button @click="tab=t.id" :class="tab==t.id?'bg-white/10 text-white':'hover:bg-white/5'" class="flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-medium transition focus:outline-none">
+          <i :class="'fa-solid '+t.icon" class="w-5 text-center"></i><span x-text="t.title"></span>
         </button>
       </template>
     </nav>
+
     <div class="mt-auto hidden p-5 text-xs text-slate-300 md:block">
-  	<div class="truncate" x-text="user?.email"></div>
-	</div>
+      <div class="truncate" x-text="user?.email"></div>
+    </div>
   </aside>
 
   <main class="min-w-0 flex-1 p-4 pb-24 md:p-8">
+
+    <!-- Bandeaux d'alerte -->
     <div x-show="denied" class="mb-5 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
       Ce compte n'est pas autorisé à consulter les données. Identifiant à enregistrer dans « bureau » : <b x-text="user?.uid"></b>
     </div>
+    <div x-show="!online" class="mb-5 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+      <i class="fa-solid fa-wifi mr-2"></i>Connexion interrompue. Les modifications seront synchronisées au retour de la connexion.
+    </div>
 
-    <div x-show="!online" class="mb-5 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900"><i class="fa-solid fa-wifi mr-2"></i>Connexion interrompue. Les modifications seront synchronisées au retour de la connexion.</div>
-
+    <!-- En-tête : titre de la page et actions de l'onglet -->
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-2xl font-bold" x-text="tabs.find(t=>t[0]==tab)[2]"></h1>
+      <h1 class="text-2xl font-bold" x-text="tabTitle"></h1>
+
       <div class="flex items-center gap-2">
         <button x-show="tab=='dash'" @click="exportCsv()" class="btn"><i class="fa-solid fa-file-arrow-down"></i> Exporter (CSV)</button>
-        <button x-show="tab=='membres'" @click="open('membres')" class="btn"><i class="fa-solid fa-plus"></i> Ajouter un membre</button>
+        <button x-show="tab=='membres'" @click="openForm('membres')" class="btn"><i class="fa-solid fa-plus"></i> Ajouter un membre</button>
+
         <div x-show="tab=='cotisations'" class="card flex items-center gap-1 px-2 py-1">
-          <button @click="year--" aria-label="Année précédente" class="px-3 py-1 text-slate-600"><i class="fa-solid fa-chevron-left"></i></button>
+          <button @click="year--" aria-label="Année précédente" class="px-3 py-1 text-slate-600 focus:outline-none"><i class="fa-solid fa-chevron-left"></i></button>
           <span class="w-14 text-center text-sm font-semibold" x-text="year"></span>
-          <button @click="year++" aria-label="Année suivante" class="px-3 py-1 text-slate-600"><i class="fa-solid fa-chevron-right"></i></button>
+          <button @click="year++" aria-label="Année suivante" class="px-3 py-1 text-slate-600 focus:outline-none"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
-        <button x-show="tab=='activites'" @click="open('activites',{type:'recette'})" class="btn"><i class="fa-solid fa-plus"></i> Ajouter une activité</button>
-        <button x-show="tab=='prets'" @click="open('prets')" class="btn"><i class="fa-solid fa-plus"></i> Accorder un prêt</button>
-        <button x-show="tab=='depenses'" @click="open('depenses')" class="btn"><i class="fa-solid fa-plus"></i> Ajouter une dépense</button>
+
+        <button x-show="tab=='activites'" @click="openForm('activites',{type:'recette'})" class="btn"><i class="fa-solid fa-plus"></i> Ajouter une activité</button>
+        <button x-show="tab=='prets'" @click="openForm('prets')" class="btn"><i class="fa-solid fa-plus"></i> Accorder un prêt</button>
+        <button x-show="tab=='depenses'" @click="openForm('depenses')" class="btn"><i class="fa-solid fa-plus"></i> Ajouter une dépense</button>
         <button x-show="tab=='dash'" @click="logout()" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700"><i class="fa-solid fa-right-from-bracket"></i>Se déconnecter</button>
       </div>
     </div>
 
-    <div x-show="loading&&!denied" class="grid place-items-center py-24 text-slate-600"><div class="spin"></div><p class="mt-3 text-sm">Chargement des données…</p></div>
+    <div x-show="loading&&!denied" class="grid place-items-center py-24 text-slate-600">
+      <div class="spin"></div><p class="mt-3 text-sm">Chargement des données…</p>
+    </div>
 
     <!-- Tableau de bord -->
     <section x-show="!loading&&tab=='dash'" class="space-y-5">
       <div class="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-700 p-6 text-white shadow-lg">
         <div class="text-sm text-slate-300">Solde de la caisse</div>
-        <div class="mt-2 text-4xl font-bold" x-text="fmt(solde)"></div>
+        <div class="mt-2 text-4xl font-bold" x-text="fmtMoney(solde)"></div>
         <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-200">
-          <span>Solde initial : <b x-text="fmt(report)"></b></span>
-          <button @click="open('soldeInitial',{...d.soldeInitial})" class="rounded-lg border border-slate-400 px-2.5 py-1 text-xs font-semibold hover:bg-white/10"><i class="fa-solid fa-pen"></i> <span x-text="report?'Modifier':'Renseigner'"></span></button>
+          <span>Solde initial : <b x-text="fmtMoney(initialBalance)"></b></span>
+          <button @click="openForm('soldeInitial',{...data.soldeInitial})" class="rounded-lg border border-slate-400 px-2.5 py-1 text-xs font-semibold hover:bg-white/10"><i class="fa-solid fa-pen"></i> <span x-text="initialBalance?'Modifier':'Renseigner'"></span></button>
         </div>
       </div>
+
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="card p-5"><div class="text-xs text-slate-500">Cotisations perçues</div><div class="mt-1 text-xl font-bold text-emerald-700" x-text="fmt(totCot)"></div></div>
-        <div class="card p-5"><div class="text-xs text-slate-500">Activités et aides</div><div class="mt-1 text-xl font-bold text-emerald-700" x-text="fmt(totAct)"></div></div>
-        <div class="card p-5"><div class="text-xs text-slate-500">Dépenses</div><div class="mt-1 text-xl font-bold text-rose-700" x-text="fmt(totDep)"></div></div>
-        <div class="card p-5"><div class="text-xs text-slate-500">Reste à rembourser</div><div class="mt-1 text-xl font-bold text-amber-700" x-text="fmt(pretsReste)"></div></div>
+        <div class="card p-5"><div class="stat-label">Cotisations perçues</div><div class="stat-value mt-1 text-emerald-700" x-text="fmtMoney(totalCotisations)"></div></div>
+        <div class="card p-5"><div class="stat-label">Activités et aides</div><div class="stat-value mt-1 text-emerald-700" x-text="fmtMoney(totalActivites)"></div></div>
+        <div class="card p-5"><div class="stat-label">Dépenses</div><div class="stat-value mt-1 text-rose-700" x-text="fmtMoney(totalDepenses)"></div></div>
+        <div class="card p-5"><div class="stat-label">Reste à rembourser</div><div class="stat-value mt-1 text-amber-700" x-text="fmtMoney(pretsRestant)"></div></div>
       </div>
+
       <div class="card overflow-hidden">
         <div class="px-5 py-4 font-semibold">Dernières opérations</div>
         <div class="overflow-x-auto"><table class="tbl w-full">
           <thead><tr><th>Date</th><th>Type</th><th>Libellé</th><th class="text-right">Montant</th></tr></thead>
           <tbody>
-            <template x-for="x in mv.slice(0,10)" :key="x.k">
-              <tr><td x-text="dt(x.date)"></td><td x-text="x.t"></td><td x-text="x.l"></td>
-                <td class="text-right font-semibold" :class="x.ent?'text-emerald-700':'text-rose-700'" x-text="(x.ent?'+ ':'− ')+fmt(x.ent||x.sor)"></td></tr>
+            <template x-for="m in movements.slice(0,10)" :key="m.key">
+              <tr>
+                <td x-text="fmtDate(m.date)"></td>
+                <td x-text="m.type"></td>
+                <td x-text="m.label"></td>
+                <td class="text-right font-semibold" :class="m.entree?'text-emerald-700':'text-rose-700'" x-text="(m.entree?'+ ':'− ')+fmtMoney(m.entree||m.sortie)"></td>
+              </tr>
             </template>
-            <tr x-show="!mv.length"><td colspan="4" class="py-8 text-center text-slate-500">Aucune opération enregistrée.</td></tr>
-          </tbody></table></div>
+            <tr x-show="!movements.length"><td colspan="4" class="empty">Aucune opération enregistrée.</td></tr>
+          </tbody>
+        </table></div>
       </div>
     </section>
 
     <!-- Membres -->
     <section x-show="!loading&&tab=='membres'" class="space-y-4">
-      <div class="relative max-w-sm"><i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-3.5 top-3.5 text-slate-500"></i><input class="inp" style="padding-left:2.75rem" placeholder="Rechercher un membre" x-model="q"></div>
+      <div class="relative max-w-sm">
+        <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-3.5 top-3.5 text-slate-500"></i>
+        <input class="inp" style="padding-left:2.75rem" placeholder="Rechercher un membre" x-model="search">
+      </div>
+
       <div class="card overflow-x-auto"><table class="tbl w-full">
         <thead><tr><th>Matricule</th><th>Nom</th><th>Ville</th><th>Téléphone</th><th></th></tr></thead>
         <tbody>
           <template x-for="m in membresFiltres" :key="m.id">
-            <tr><td class="font-medium" x-text="m.matricule"></td><td x-text="m.nom"></td><td x-text="m.ville||'—'"></td><td x-text="m.tel||'—'"></td>
-              <td class="text-right"><button class="btn2" title="Modifier" aria-label="Modifier" @click="open('membres',{...m})"><i class="fa-solid fa-pen"></i></button> <button class="btn3" @click="del('membres',m.id)" title="Supprimer" aria-label="Supprimer"><i class="fa-solid fa-trash-can"></i></button></td></tr>
+            <tr>
+              <td class="font-medium" x-text="m.matricule"></td>
+              <td x-text="m.nom"></td>
+              <td x-text="m.ville||'—'"></td>
+              <td x-text="m.tel||'—'"></td>
+              <td class="text-right">
+                <button class="btn-soft" title="Modifier" aria-label="Modifier" @click="openForm('membres',{...m})"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn-trash" title="Supprimer" aria-label="Supprimer" @click="deleteRecord('membres',m.id)"><i class="fa-solid fa-trash-can"></i></button>
+              </td>
+            </tr>
           </template>
-          <tr x-show="!membresFiltres.length"><td colspan="5" class="py-8 text-center text-slate-500">Aucun membre enregistré.</td></tr>
-        </tbody></table></div>
-      <p class="text-xs text-slate-500">Total : <span x-text="d.membres.length"></span> membre(s)</p>
+          <tr x-show="!membresFiltres.length"><td colspan="5" class="empty">Aucun membre enregistré.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="text-xs text-slate-500">Total : <span x-text="data.membres.length"></span> membre(s)</p>
     </section>
 
     <!-- Cotisations -->
     <section x-show="!loading&&tab=='cotisations'" class="space-y-5">
       <div class="grid gap-4 sm:grid-cols-4">
-        <div class="card p-5"><div class="text-xs text-slate-500">Cotisation annuelle (SAR)</div>
-          <input type="number" min="0" class="inp mt-1" :value="due" @change="setDue($event.target.value)"></div>
-        <div class="card p-5"><div class="text-xs text-slate-500">Montant attendu</div><div class="mt-2 text-xl font-bold" x-text="fmt(due*d.membres.length)"></div></div>
-        <div class="card p-5"><div class="text-xs text-slate-500">Montant perçu</div><div class="mt-2 text-xl font-bold text-emerald-700" x-text="fmt(sum(cotYear))"></div></div>
-        <div class="card p-5"><div class="text-xs text-slate-500">Reste à percevoir</div><div class="mt-2 text-xl font-bold text-rose-700" x-text="fmt(sum(cotRows,'reste'))"></div></div>
+        <div class="card p-5">
+          <div class="stat-label">Cotisation annuelle (SAR)</div>
+          <input type="number" min="0" class="inp mt-1" :value="due" @change="setDue($event.target.value)">
+        </div>
+        <div class="card p-5"><div class="stat-label">Montant attendu</div><div class="stat-value mt-2" x-text="fmtMoney(due*data.membres.length)"></div></div>
+        <div class="card p-5"><div class="stat-label">Montant perçu</div><div class="stat-value mt-2 text-emerald-700" x-text="fmtMoney(sum(cotisationsOfYear))"></div></div>
+        <div class="card p-5"><div class="stat-label">Reste à percevoir</div><div class="stat-value mt-2 text-rose-700" x-text="fmtMoney(sum(cotisationRows,'reste'))"></div></div>
       </div>
+
+      <!-- Situation de chaque membre pour l'exercice -->
       <div class="card overflow-x-auto"><table class="tbl w-full">
         <thead><tr><th>Matricule</th><th>Nom</th><th>Payé</th><th>Reste</th><th>Progression</th><th>Statut</th><th></th></tr></thead>
         <tbody>
-          <template x-for="r in cotRows" :key="r.id">
-            <tr><td x-text="r.matricule"></td><td class="font-medium" x-text="r.nom"></td><td x-text="fmt(r.paye)"></td><td x-text="fmt(r.reste)"></td>
+          <template x-for="r in cotisationRows" :key="r.id">
+            <tr>
+              <td x-text="r.matricule"></td>
+              <td class="font-medium" x-text="r.nom"></td>
+              <td x-text="fmtMoney(r.paye)"></td>
+              <td x-text="fmtMoney(r.reste)"></td>
               <td><div class="h-2 w-28 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-emerald-500" :style="'width:'+(due?Math.min(100,r.paye/due*100):0)+'%'"></div></div></td>
-              <td><span class="rounded-full px-2.5 py-1 text-xs font-semibold" :class="bc(cotSt(r))" x-text="cotSt(r)"></span></td>
-              <td class="text-right"><button class="btn2" @click="open('cotisations',{membreId:r.id,annee:year,montant:r.reste||''})"><i class="fa-solid fa-plus"></i> Versement</button></td></tr>
+              <td><span class="pill" :class="badgeClass(cotStatus(r))" x-text="cotStatus(r)"></span></td>
+              <td class="text-right"><button class="btn-soft" @click="openForm('cotisations',{membreId:r.id,annee:year,montant:r.reste||''})"><i class="fa-solid fa-plus"></i> Versement</button></td>
+            </tr>
           </template>
-          <tr x-show="!cotRows.length"><td colspan="7" class="py-8 text-center text-slate-500">Aucun membre enregistré.</td></tr>
-        </tbody></table></div>
+          <tr x-show="!cotisationRows.length"><td colspan="7" class="empty">Aucun membre enregistré.</td></tr>
+        </tbody>
+      </table></div>
+
+      <!-- Historique des versements de l'exercice -->
       <div class="card overflow-x-auto">
         <div class="px-5 py-4 font-semibold">Historique des versements <span x-text="year"></span></div>
-        <table class="tbl w-full"><thead><tr><th>Date</th><th>Membre</th><th>Montant</th><th>Note</th><th></th></tr></thead>
+        <table class="tbl w-full">
+          <thead><tr><th>Date</th><th>Membre</th><th>Montant</th><th>Note</th><th></th></tr></thead>
           <tbody>
-            <template x-for="c in cotYear" :key="c.id">
-              <tr><td x-text="dt(c.date)"></td><td x-text="nom(c.membreId)"></td><td class="font-semibold text-emerald-700" x-text="fmt(c.montant)"></td><td x-text="c.note||'—'"></td>
-                <td class="text-right"><button class="btn3" @click="del('cotisations',c.id)" title="Supprimer" aria-label="Supprimer"><i class="fa-solid fa-trash-can"></i></button></td></tr>
+            <template x-for="c in cotisationsOfYear" :key="c.id">
+              <tr>
+                <td x-text="fmtDate(c.date)"></td>
+                <td x-text="memberName(c.membreId)"></td>
+                <td class="font-semibold text-emerald-700" x-text="fmtMoney(c.montant)"></td>
+                <td x-text="c.note||'—'"></td>
+                <td class="text-right"><button class="btn-trash" title="Supprimer" aria-label="Supprimer" @click="deleteRecord('cotisations',c.id)"><i class="fa-solid fa-trash-can"></i></button></td>
+              </tr>
             </template>
-            <tr x-show="!cotYear.length"><td colspan="5" class="py-6 text-center text-slate-500">Aucun versement pour cet exercice.</td></tr>
-          </tbody></table>
+            <tr x-show="!cotisationsOfYear.length"><td colspan="5" class="empty">Aucun versement pour cet exercice.</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -177,44 +273,75 @@
       <div class="card overflow-x-auto"><table class="tbl w-full">
         <thead><tr><th>Date</th><th>Activité</th><th>Type</th><th>Montant</th><th>Note</th><th></th></tr></thead>
         <tbody>
-          <template x-for="a in byDate(d.activites)" :key="a.id">
-            <tr><td x-text="dt(a.date)"></td><td class="font-medium" x-text="a.titre"></td>
-              <td><span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold" x-text="a.type=='aide'?'Aide':'Recette'"></span></td>
-              <td class="font-semibold text-emerald-700" x-text="fmt(a.montant)"></td><td x-text="a.note||'—'"></td>
-              <td class="text-right"><button class="btn3" @click="del('activites',a.id)" title="Supprimer" aria-label="Supprimer"><i class="fa-solid fa-trash-can"></i></button></td></tr>
+          <template x-for="a in byDate(data.activites)" :key="a.id">
+            <tr>
+              <td x-text="fmtDate(a.date)"></td>
+              <td class="font-medium" x-text="a.titre"></td>
+              <td><span class="pill bg-slate-100" x-text="a.type=='aide'?'Aide':'Recette'"></span></td>
+              <td class="font-semibold text-emerald-700" x-text="fmtMoney(a.montant)"></td>
+              <td x-text="a.note||'—'"></td>
+              <td class="text-right"><button class="btn-trash" title="Supprimer" aria-label="Supprimer" @click="deleteRecord('activites',a.id)"><i class="fa-solid fa-trash-can"></i></button></td>
+            </tr>
           </template>
-          <tr x-show="!d.activites.length"><td colspan="6" class="py-8 text-center text-slate-500">Aucune activité enregistrée.</td></tr>
-        </tbody></table></div>
+          <tr x-show="!data.activites.length"><td colspan="6" class="empty">Aucune activité enregistrée.</td></tr>
+        </tbody>
+      </table></div>
     </section>
 
     <!-- Prêts -->
     <section x-show="!loading&&tab=='prets'" class="space-y-4">
       <div class="grid gap-4 sm:grid-cols-3">
-        <div class="card p-5"><div class="text-xs text-slate-500">Total prêté</div><div class="mt-1 text-xl font-bold" x-text="fmt(totPrets)"></div></div>
-        <div class="card p-5"><div class="text-xs text-slate-500">Déjà remboursé</div><div class="mt-1 text-xl font-bold text-emerald-700" x-text="fmt(totRemb)"></div></div>
-        <div class="card p-5"><div class="text-xs text-slate-500">Reste à récupérer</div><div class="mt-1 text-xl font-bold text-amber-700" x-text="fmt(pretsReste)"></div></div>
+        <div class="card p-5"><div class="stat-label">Total prêté</div><div class="stat-value mt-1" x-text="fmtMoney(totalPrets)"></div></div>
+        <div class="card p-5"><div class="stat-label">Déjà remboursé</div><div class="stat-value mt-1 text-emerald-700" x-text="fmtMoney(totalRemboursements)"></div></div>
+        <div class="card p-5"><div class="stat-label">Reste à récupérer</div><div class="stat-value mt-1 text-amber-700" x-text="fmtMoney(pretsRestant)"></div></div>
       </div>
+
       <div class="card overflow-x-auto"><table class="tbl w-full">
-        <thead><tr><th>Date</th><th>Membre</th><th>Motif</th><th>Prêté</th><th>Remboursé</th><th>Reste</th><th>Statut</th><th></th></tr></thead>
-        <template x-for="p in loanRows" :key="p.id">
+        <thead>
+  		<tr>
+			<th>Date</th>
+			<th>Membre</th>
+			<th>Motif</th>
+			<th>Prêté</th>
+			<th>Remboursé</th>
+			<th>Reste</th>
+			<th>Statut</th>
+			<th></th>
+  		</tr>
+		</thead>
+
+        <!-- Un bloc par prêt -->
+        <template x-for="p in loans" :key="p.id">
           <tbody>
-            <tr><td x-text="dt(p.date)"></td><td class="font-medium" x-text="nom(p.membreId)"></td><td x-text="p.motif"></td>
-              <td x-text="fmt(p.montant)"></td><td class="text-emerald-700" x-text="fmt(p.paid)"></td><td class="font-semibold text-amber-700" x-text="fmt(p.reste)"></td>
-              <td><span class="rounded-full px-2.5 py-1 text-xs font-semibold" :class="bc(loanSt(p))" x-text="loanSt(p)"></span></td>
+            <tr>
+              <td x-text="fmtDate(p.date)"></td>
+              <td class="font-medium" x-text="memberName(p.membreId)"></td>
+              <td x-text="p.motif"></td>
+              <td x-text="fmtMoney(p.montant)"></td>
+              <td class="text-emerald-700" x-text="fmtMoney(p.paid)"></td>
+              <td class="font-semibold text-amber-700" x-text="fmtMoney(p.reste)"></td>
+              <td><span class="pill" :class="badgeClass(loanStatus(p))" x-text="loanStatus(p)"></span></td>
               <td class="text-right">
-                <button class="btn2" x-show="p.reste>0" @click="open('remboursements',{pretId:p.id,montant:p.reste})"><i class="fa-solid fa-plus"></i> Remboursement</button>
-                <button class="btn2 !bg-slate-100 !text-slate-700" @click="openLoan=openLoan==p.id?null:p.id">Détails</button>
-                <button class="btn3" @click="del('prets',p.id)" title="Supprimer" aria-label="Supprimer"><i class="fa-solid fa-trash-can"></i></button></td></tr>
-            <tr x-show="openLoan==p.id" class="bg-slate-50"><td colspan="8" class="!whitespace-normal">
-              <div class="mb-1 text-xs font-semibold uppercase text-slate-500">Remboursements</div>
-              <template x-for="r in p.r" :key="r.id"><div class="flex items-center justify-between py-1 text-sm">
-                <span><span x-text="dt(r.date)"></span> — <b class="text-emerald-700" x-text="fmt(r.montant)"></b></span>
-                <button class="btn3" @click="del('remboursements',r.id)" title="Supprimer" aria-label="Supprimer"><i class="fa-solid fa-trash-can"></i></button></div></template>
-              <div x-show="!p.r.length" class="text-sm text-slate-500">Aucun remboursement.</div>
-            </td></tr>
+                <button class="btn-soft" x-show="p.reste>0" @click="openForm('remboursements',{pretId:p.id,montant:p.reste})"><i class="fa-solid fa-plus"></i> Remboursement</button>
+                <button class="btn-muted" @click="openLoan=openLoan==p.id?null:p.id">Détails</button>
+                <button class="btn-trash" title="Supprimer" aria-label="Supprimer" @click="deleteRecord('prets',p.id)"><i class="fa-solid fa-trash-can"></i></button>
+              </td>
+            </tr>
+            <tr x-show="openLoan==p.id" class="bg-slate-50">
+              <td colspan="8" class="!whitespace-normal">
+                <div class="mb-1 text-xs font-semibold uppercase text-slate-500">Remboursements</div>
+                <template x-for="r in p.repayments" :key="r.id">
+                  <div class="flex items-center justify-between py-1 text-sm">
+                    <span><span x-text="fmtDate(r.date)"></span> — <b class="text-emerald-700" x-text="fmtMoney(r.montant)"></b></span>
+                    <button class="btn-trash" title="Supprimer" aria-label="Supprimer" @click="deleteRecord('remboursements',r.id)"><i class="fa-solid fa-trash-can"></i></button>
+                  </div>
+                </template>
+                <div x-show="!p.repayments.length" class="text-sm text-slate-500">Aucun remboursement.</div>
+              </td>
+            </tr>
           </tbody>
         </template>
-        <tbody x-show="!loanRows.length"><tr><td colspan="8" class="py-8 text-center text-slate-500">Aucun prêt enregistré.</td></tr></tbody>
+        <tbody x-show="!loans.length"><tr><td colspan="8" class="empty">Aucun prêt enregistré.</td></tr></tbody>
       </table></div>
     </section>
 
@@ -223,60 +350,102 @@
       <div class="card overflow-x-auto"><table class="tbl w-full">
         <thead><tr><th>Date</th><th>Motif</th><th>Catégorie</th><th>Montant</th><th></th></tr></thead>
         <tbody>
-          <template x-for="x in byDate(d.depenses)" :key="x.id">
-            <tr><td x-text="dt(x.date)"></td><td class="font-medium" x-text="x.motif"></td><td x-text="x.categorie||'—'"></td>
-              <td class="font-semibold text-rose-700" x-text="fmt(x.montant)"></td>
-              <td class="text-right"><button class="btn3" @click="del('depenses',x.id)" title="Supprimer" aria-label="Supprimer"><i class="fa-solid fa-trash-can"></i></button></td></tr>
+          <template x-for="x in byDate(data.depenses)" :key="x.id">
+            <tr>
+              <td x-text="fmtDate(x.date)"></td>
+              <td class="font-medium" x-text="x.motif"></td>
+              <td x-text="x.categorie||'—'"></td>
+              <td class="font-semibold text-rose-700" x-text="fmtMoney(x.montant)"></td>
+              <td class="text-right"><button class="btn-trash" title="Supprimer" aria-label="Supprimer" @click="deleteRecord('depenses',x.id)"><i class="fa-solid fa-trash-can"></i></button></td>
+            </tr>
           </template>
-          <tr x-show="!d.depenses.length"><td colspan="5" class="py-8 text-center text-slate-500">Aucune dépense enregistrée.</td></tr>
-        </tbody></table></div>
+          <tr x-show="!data.depenses.length"><td colspan="5" class="empty">Aucune dépense enregistrée.</td></tr>
+        </tbody>
+      </table></div>
     </section>
   </main>
 </div>
 
+<!-- Navigation mobile -->
 <nav x-show="user" x-cloak class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] md:hidden">
-  <template x-for="t in tabs" :key="t[0]"><button @click="tab=t[0];window.scrollTo(0,0)" :class="tab==t[0]?'text-amber-800':'text-slate-600'" class="flex flex-col items-center gap-0.5 py-2 text-[10px] font-semibold"><i :class="'fa-solid '+t[1]" class="text-lg"></i><span x-text="t[3]"></span></button></template>
+  <template x-for="t in tabs" :key="t.id">
+    <button @click="tab=t.id;window.scrollTo(0,0)" :class="tab==t.id?'text-amber-800':'text-slate-600'" class="flex flex-col items-center gap-0.5 py-2 text-[10px] font-semibold focus:outline-none">
+      <i :class="'fa-solid '+t.icon" class="text-lg"></i><span x-text="t.short"></span>
+    </button>
+  </template>
 </nav>
-<div x-show="msg" x-cloak x-transition class="fixed bottom-20 left-1/2 z-[60] -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-lg md:bottom-6" x-text="msg"></div>
+
+<!-- Message de confirmation -->
+<div x-show="toast" x-cloak x-transition class="fixed bottom-20 left-1/2 z-[60] -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-lg md:bottom-6" x-text="toast"></div>
 
 <!-- Fenêtre de saisie -->
-<div x-show="modal" x-cloak x-transition.opacity @keydown.escape.window="modal=null" class="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/60 sm:items-center sm:p-4">
-  <form @submit.prevent="save()" class="card max-h-[92vh] w-full max-w-md space-y-4 overflow-y-auto rounded-b-none p-5 sm:rounded-2xl sm:p-6">
-    <h2 class="text-lg font-bold" x-text="(f.id?'Modifier — ':'')+(titles[modal]||'')"></h2>
+<div x-show="modal" x-cloak x-transition.opacity @keydown.escape.window="!dialog&&(modal=null)" class="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/60 sm:items-center sm:p-4">
+  <form @submit.prevent="save()" novalidate class="card max-h-[92vh] w-full max-w-md space-y-4 overflow-y-auto rounded-b-none p-5 sm:rounded-2xl sm:p-6">
+    <h2 class="text-lg font-bold" x-text="(form.id?'Modifier — ':'')+(titles[modal]||'')"></h2>
     <p x-show="modal=='soldeInitial'" class="text-sm text-slate-600">Montant remis par le trésorier précédent à la fin de son mandat.</p>
     <p x-show="modal=='remboursements'" class="rounded-xl bg-amber-50 p-3 text-sm text-amber-800" x-text="loanInfo()"></p>
 
-    <label class="block" x-show="modal=='membres'"><span class="text-xs font-semibold text-slate-600">Matricule *</span><input class="inp mt-1" x-model="f.matricule"></label>
-    <label class="block" x-show="modal=='membres'"><span class="text-xs font-semibold text-slate-600">Nom complet *</span><input class="inp mt-1" x-model="f.nom"></label>
-    <label class="block" x-show="modal=='membres'"><span class="text-xs font-semibold text-slate-600">Ville (optionnel)</span><input class="inp mt-1" x-model="f.ville"></label>
-    <label class="block" x-show="modal=='membres'"><span class="text-xs font-semibold text-slate-600">Téléphone (optionnel)</span><input class="inp mt-1" x-model="f.tel"></label>
+    <!-- Membre -->
+    <label class="block" x-show="modal=='membres'"><span class="lbl">Matricule *</span><input class="inp mt-1" x-model="form.matricule"></label>
+    <label class="block" x-show="modal=='membres'"><span class="lbl">Nom complet *</span><input class="inp mt-1" x-model="form.nom"></label>
+    <label class="block" x-show="modal=='membres'"><span class="lbl">Ville (optionnel)</span><input class="inp mt-1" x-model="form.ville"></label>
+    <label class="block" x-show="modal=='membres'"><span class="lbl">Téléphone (optionnel)</span><input class="inp mt-1" x-model="form.tel"></label>
 
-    <label class="block" x-show="['cotisations','prets'].includes(modal)"><span class="text-xs font-semibold text-slate-600">Membre *</span>
-      <select class="inp mt-1" x-model="f.membreId"><option value="">Choisir…</option>
-        <template x-for="m in membresList" :key="m.id"><option :value="m.id" x-text="m.matricule+' — '+m.nom"></option></template></select></label>
-
-    <label class="block" x-show="['activites','depenses'].includes(modal)"><span class="text-xs font-semibold text-slate-600" x-text="modal=='activites'?'Activité *':'Motif *'"></span>
-      <input class="inp mt-1" :value="modal=='activites'?f.titre:f.motif" @input="f[modal=='activites'?'titre':'motif']=$event.target.value"></label>
-    <label class="block" x-show="modal=='prets'"><span class="text-xs font-semibold text-slate-600">Motif du prêt *</span><input class="inp mt-1" x-model="f.motif"></label>
-    <label class="block" x-show="modal=='activites'"><span class="text-xs font-semibold text-slate-600">Type</span>
-      <select class="inp mt-1" x-model="f.type"><option value="recette">Recette</option><option value="aide">Aide ou don</option></select></label>
-    <label class="block" x-show="modal=='depenses'"><span class="text-xs font-semibold text-slate-600">Catégorie (optionnel)</span><input class="inp mt-1" x-model="f.categorie" placeholder="Ex. : Location de salle"></label>
-
-    <div class="grid grid-cols-2 gap-3" x-show="modal!='membres'">
-      <label class="block"><span class="text-xs font-semibold text-slate-600">Montant (SAR) *</span><input type="number" min="0" step="0.01" class="inp mt-1" x-model="f.montant"></label>
-      <label class="block"><span class="text-xs font-semibold text-slate-600">Date *</span><input type="date" class="inp mt-1" x-model="f.date"></label>
+    <!-- Membre concerné -->
+    <label class="block" x-show="modal=='prets'"><span class="lbl">Membre *</span>
+      <select class="inp mt-1" x-model="form.membreId">
+        <option value="">Choisir…</option>
+        <template x-for="m in membresList" :key="m.id"><option :value="m.id" x-text="m.matricule+' — '+m.nom"></option></template>
+      </select>
+    </label>
+    <div x-show="modal=='cotisations'">
+      <span class="lbl">Membre</span>
+      <div class="mt-1 rounded-xl bg-slate-100 px-3 py-2.5 text-base font-medium text-slate-700 sm:text-sm" aria-readonly="true" x-text="memberLabel(form.membreId)"></div>
     </div>
-    <label class="block" x-show="['cotisations','activites','soldeInitial'].includes(modal)"><span class="text-xs font-semibold text-slate-600">Note (optionnel)</span><input class="inp mt-1" x-model="f.note"></label>
 
-    <p x-show="err" x-text="err" class="text-sm text-rose-700"></p>
+    <!-- Intitulé -->
+    <label class="block" x-show="modal=='activites'"><span class="lbl">Activité *</span><input class="inp mt-1" x-model="form.titre"></label>
+    <label class="block" x-show="modal=='depenses'"><span class="lbl">Motif *</span><input class="inp mt-1" x-model="form.motif"></label>
+    <label class="block" x-show="modal=='prets'"><span class="lbl">Motif du prêt *</span><input class="inp mt-1" x-model="form.motif"></label>
+    <label class="block" x-show="modal=='activites'"><span class="lbl">Type</span>
+      <select class="inp mt-1" x-model="form.type"><option value="recette">Recette</option><option value="aide">Aide ou don</option></select>
+    </label>
+    <label class="block" x-show="modal=='depenses'"><span class="lbl">Catégorie (optionnel)</span><input class="inp mt-1" x-model="form.categorie" placeholder="Ex. : Location de salle"></label>
+
+    <!-- Montant et date -->
+    <div class="grid grid-cols-2 gap-3" x-show="modal!='membres'">
+      <label class="block"><span class="lbl">Montant (SAR) *</span><input type="number" min="0" step="0.01" class="inp mt-1" x-model="form.montant"></label>
+      <label class="block"><span class="lbl">Date *</span><input type="date" class="inp mt-1" x-model="form.date"></label>
+    </div>
+    <label class="block" x-show="['cotisations','activites','soldeInitial'].includes(modal)"><span class="lbl">Note (optionnel)</span><input class="inp mt-1" x-model="form.note"></label>
+    <p x-show="error" x-text="error" class="text-sm text-rose-700"></p>
     <div class="flex justify-end gap-2 pt-2">
-      <button type="button" @click="modal=null" class="rounded-xl px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100">Annuler</button>
+      <button type="button" @click="modal=null" class="btn-cancel">Annuler</button>
       <button class="btn">Enregistrer</button>
     </div>
   </form>
 </div>
 
-<script></script>
+<!-- Boîte de dialogue -->
+<div x-show="dialog" x-cloak x-transition.opacity
+     role="alertdialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-message"
+     @keydown.escape.window="closeDialog(false)" @click.self="closeDialog(false)"
+     x-effect="if (dialog) $nextTick(() => $refs[dialog.kind=='confirm' ? 'btnCancel' : 'btnOk']?.focus())"
+     class="fixed inset-0 z-[70] flex items-end justify-center bg-slate-900/60 sm:items-center sm:p-4">
+  <div class="card w-full max-w-sm rounded-b-none p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] text-center sm:rounded-2xl sm:pb-6">
+    <div class="mx-auto grid h-12 w-12 place-items-center rounded-full" :class="dialog?.danger?'bg-rose-100 text-rose-700':'bg-amber-100 text-amber-700'">
+      <i class="fa-solid text-lg" :class="dialog?.icon"></i>
+    </div>
+    <h2 id="dialog-title" class="mt-4 text-lg font-bold" x-text="dialog?.title"></h2>
+    <p id="dialog-message" class="mt-2 text-sm leading-relaxed text-slate-600" x-text="dialog?.message"></p>
+    <div class="mt-6 flex gap-2">
+      <button x-ref="btnCancel" x-show="dialog?.kind=='confirm'" type="button" @click="closeDialog(false)" class="btn-cancel flex-1" x-text="dialog?.cancel"></button>
+      <button x-ref="btnOk" type="button" @click="closeDialog(true)" :class="dialog?.danger?'btn-danger':'btn'" class="flex-1" x-text="dialog?.ok"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-auth-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-database-compat.js"></script>
